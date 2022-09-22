@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from common.pagination import StandardPagination
 from common.utils import ok, created
 from .models import Post, UserPostLike
-from .serializers import PostSerializer, PostLikeValueSerializer, PostInfoSerializer
+from .serializers import PostSerializer, PostLikeValueSerializer, PostInfoSerializer, AnalyticsSerializer
 
 
 class CreateListApiView(generics.ListCreateAPIView):
@@ -40,7 +40,10 @@ class PostDetailApiView(APIView):
         return created(serializer.data)
 
 
-# class LikeAnalytics(APIView):
-#
-#     def get(self, request):
-#         self.request.query_params
+class LikeAnalytics(APIView):
+
+    def get(self, request):
+        a = AnalyticsSerializer(data=request.query_params)
+        a.is_valid(raise_exception=True)
+        a.save()
+        return created(a.data)

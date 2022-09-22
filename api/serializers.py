@@ -1,14 +1,14 @@
 from rest_framework import serializers
 
 from auth_.serializers import UserSerializer
-from .models import Post, UserPostLike
+from .models import Post, UserPostLike, Analytics
 
 
 class PostSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     content = serializers.CharField(required=True)
     author = UserSerializer(read_only=True)
-    created_at = serializers.DateTimeField(format='%d.%m.%Y %H:%M:%S', read_only=True)
+    created_at = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = Post
@@ -33,7 +33,7 @@ class PostLikeValueSerializer(serializers.ModelSerializer):
     value = serializers.IntegerField(required=True, write_only=True)
     content = serializers.CharField(read_only=True)
     author = UserSerializer(read_only=True)
-    created_at = serializers.DateTimeField(format='%d.%m.%Y %H:%M:%S', read_only=True)
+    created_at = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = Post
@@ -63,7 +63,23 @@ class PostLikeValueSerializer(serializers.ModelSerializer):
         return post
 
 
-# class AnalyticsSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = UserPostLike
-#         fields = ('updated_at',)
+class AnalyticsSerializer(serializers.Serializer):
+    date_from = serializers.DateField(write_only=True, required=True)
+    date_to = serializers.DateField(write_only=True, required=True)
+    likes = serializers.IntegerField(read_only=True)
+    dislikes = serializers.IntegerField(read_only=True)
+
+    def validate(self, data):
+        if data['date_from'] > data['date_to']:
+            raise serializers.ValidationError({'date': 'date_from must be before date_to'})
+        return data
+
+    def create(self, validated_data):
+        filtered = UserPostLike.objects.filter(updated_at__gte=validated_data['date_from'],
+                                               updated_at__lte=validated_data['date_to']).exclude(value=0)
+        likes = filtered.filter(value=1).count()
+        dislikes = filtered.filter(value=-1).count()
+        return Analytics(likes, dislikes)
+
+    def update(self, instance, validated_data):
+        pass

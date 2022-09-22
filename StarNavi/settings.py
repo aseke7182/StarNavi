@@ -85,7 +85,9 @@ REST_FRAMEWORK = {
 
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
-    ]
+    ],
+    'DATETIME_FORMAT': "%d.%m.%Y %H:%M:%S",
+    "DATE_INPUT_FORMATS": ["%d.%m.%Y"],
 }
 
 WSGI_APPLICATION = 'StarNavi.wsgi.application'

@@ -6,9 +6,9 @@ from .models import User
 
 
 class UserInfoSerializer(serializers.ModelSerializer):
-    created_at = serializers.DateTimeField(format='%d.%m.%Y %H:%M:%S')
-    last_activity = serializers.DateTimeField(format='%d.%m.%Y %H:%M:%S')
-    last_login = serializers.DateTimeField(format='%d.%m.%Y %H:%M:%S')
+    created_at = serializers.DateTimeField()
+    last_activity = serializers.DateTimeField()
+    last_login = serializers.DateTimeField()
 
     class Meta:
         model = User

@@ -16,3 +16,9 @@ class UserPostLike(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='user_like_rel')
     value = models.IntegerField()
     updated_at = models.DateTimeField(auto_now=True, blank=True)
+
+
+class Analytics:
+    def __init__(self, likes, dislikes):
+        self.likes = likes
+        self.dislikes = dislikes
