@@ -46,7 +46,8 @@ INSTALLED_APPS = [
 ]
 
 INSTALLED_APPS += [
-    'auth_'
+    'auth_',
+    'api'
 ]
 
 MIDDLEWARE = [

@@ -5,7 +5,7 @@ from .messages import user_exists
 from .models import User
 
 
-class UserSerializer(serializers.ModelSerializer):
+class UserInfoSerializer(serializers.ModelSerializer):
     created_at = serializers.DateTimeField(format='%d.%m.%Y %H:%M:%S')
     last_activity = serializers.DateTimeField(format='%d.%m.%Y %H:%M:%S')
     last_login = serializers.DateTimeField(format='%d.%m.%Y %H:%M:%S')
@@ -13,6 +13,12 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'username', 'name', 'surname', 'created_at', 'last_activity', 'last_login',)
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'name', 'surname')
 
 
 class RegistrationSerializer(serializers.ModelSerializer):

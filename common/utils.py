@@ -14,6 +14,10 @@ def bad_request(msg):
     return response({'detail': msg}, status.HTTP_400_BAD_REQUEST)
 
 
+def not_found(msg):
+    return response({'detail': msg}, status.HTTP_404_NOT_FOUND)
+
+
 def ok(data):
     if isinstance(data, str):
         data = {'detail': data}
