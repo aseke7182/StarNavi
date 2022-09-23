@@ -56,9 +56,9 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'auth_.middleware.UpdateLastUserActivityMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'StarNavi.middleware.UpdateLastUserActivityMiddleware',
 ]
 
 ROOT_URLCONF = 'StarNavi.urls'

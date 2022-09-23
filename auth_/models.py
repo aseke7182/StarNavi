@@ -1,7 +1,6 @@
-import datetime
-
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 from django.db import models
+from django.utils import timezone
 
 
 class UserManager(BaseUserManager):
@@ -30,7 +29,7 @@ class User(AbstractBaseUser):
     objects = UserManager()
     name = models.CharField(max_length=50)
     surname = models.CharField(max_length=50)
-    created_at = models.DateTimeField(default=datetime.datetime.now, blank=True)
+    created_at = models.DateTimeField(default=timezone.now, blank=True)
     last_activity = models.DateTimeField(blank=True, null=True)
     last_login = models.DateTimeField(blank=True, null=True)
 

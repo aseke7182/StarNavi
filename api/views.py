@@ -37,7 +37,7 @@ class PostDetailApiView(APIView):
         serializer.context['user'] = request.user
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return created(serializer.data)
+        return ok(serializer.data)
 
 
 class LikeAnalytics(APIView):
