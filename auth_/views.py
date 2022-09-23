@@ -1,14 +1,14 @@
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from rest_framework import generics
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
 
 from common.utils import unauthorized, ok, bad_request, created
 from .messages import invalid_credentials, logout_msg
 from .models import User
 from .serializers import (
-    UserSerializer, RegistrationSerializer, UserLoginSerializer
+    UserSerializer, RegistrationSerializer, UserLoginSerializer, UserInfoSerializer
 )
 from .utils import get_tokens_for_user
 
@@ -51,8 +51,14 @@ class UserLogin(APIView):
 
 
 class UserLogout(APIView):
-    permission_classes = (IsAuthenticated,)
 
     def post(self, request):
         logout(request)
         return ok(logout_msg)
+
+
+class UserActivity(generics.RetrieveAPIView):
+    serializer_class = UserInfoSerializer
+
+    def get_object(self):
+        return User.objects.get(id=self.request.user.id)
